@@ -16,9 +16,18 @@ This will clear all files, make sure any code changes follow the standard conven
 - `npm run lint`
 - `npm run compile`
 
-Unit tests are only run automatically before publishing but they should also be run before commits with code changes.
+## Testing
 
-- `npm run test`
+Unit tests are only run automatically before publishing but they should also be run before commits with code changes. The standard target of `npm run test` will run two kinds of tests:
+
+ * `test:src`: unit tests that are standalone and can be run at any time;
+ * `test:rpc`: a script that connects to a local `bitcoind`, in`regtest` mode, through `RPC`;
+
+Each of those individual targets can be run separately, which can be useful if a local node is not running. Otherwise, before launching the tests, you need to run:
+
+```
+$> bitcoind -regtest -rpcuser=rpcuser -rpcpassword=rpcpass
+```
 
 ## Usage
 
@@ -70,8 +79,7 @@ const tx = createTx(ecc, prvKey, utxo, fee, parties);
 console.log("tx:", xeclib.toHex(tx.ser()));
 ```
 
-Limitations
------------
+## Limitations
 
   * The number of parties is currently limited to either 2 or 3. More parties
     would create a _preimage_ with more than 520 bytes making it impossible to

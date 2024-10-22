@@ -37,8 +37,10 @@
     "lint": "eslint",
     "compile": "tsc -p tsconfig.json",
     "build": "npm run clean && npm run lint && npm run compile",
-    "test": "mocha --config mocharc.json",
-    "prepublish": "npm run build && npm run test"
+    "test": "npm run test:src && npm run test:rpc",
+    "test:src": "mocha --config mocharc.json",
+    "test:rpc": "ts-node scripts/testrpc.ts",
+    "prepublish": "npm run build && npm run test:src"
   },
   "files": [
     "dist"
