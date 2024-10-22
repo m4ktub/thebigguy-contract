@@ -42,7 +42,7 @@ const prvKey = fromHex("...");
 const fee = 2000; // SAT
 const parties = [
   { address: "ecash:qq28cqs6dx23qh4qucnk9v3l2jt4yr242cxqqnw9kc", share: 900 },
-  { address: "ecash:qq830d643lw865u0x7mpc4yzsrvt9peccggju7td2v", share: 1000 },
+  { address: "ecash:qq830d643lw865u0x7mpc4yzsrvt9peccggju7td2v", share: 100 },
 ];
 
 const contract = createScript(ecc, prvKey, fee, parties);
