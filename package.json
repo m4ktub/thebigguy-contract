@@ -40,7 +40,7 @@
     "test": "npm run test:src && npm run test:rpc",
     "test:src": "mocha --config mocharc.json",
     "test:rpc": "ts-node scripts/testrpc.ts",
-    "prepublish": "npm run build && npm run test:src"
+    "prepublishOnly": "npm run build && npm run test:src"
   },
   "files": [
     "dist"
