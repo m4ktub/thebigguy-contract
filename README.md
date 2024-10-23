@@ -8,20 +8,20 @@ For example, if 100.00 XEC are received, a fee of 12.00 XEC is deducted, and the
 
 The library can be built through the typical:
 
-- `npm run build`
+  * `npm run build`
 
 This will clear all files, make sure any code changes follow the standard conventions, and recompile source files. Each of those steps can be executed separately to the same effect:
 
-- `npm run clean`
-- `npm run lint`
-- `npm run compile`
+  * `npm run clean`
+  * `npm run lint`
+  * `npm run compile`
 
 ## Testing
 
 Unit tests are only run automatically before publishing but they should also be run before commits with code changes. The standard target of `npm run test` will run two kinds of tests:
 
- * `test:src`: unit tests that are standalone and can be run at any time;
- * `test:rpc`: a script that connects to a local `bitcoind`, in`regtest` mode, through `RPC`;
+  * `test:src`: unit tests that are standalone and can be run at any time;
+  * `test:rpc`: a script that connects to a local `bitcoind`, in`regtest` mode, through `RPC`;
 
 Each of those individual targets can be run separately, which can be useful if a local node is not running. Otherwise, before launching the tests, you need to run:
 
@@ -36,7 +36,7 @@ The library requires the use of the eCash Library, for the cryptographic primiti
 The following example creates the contract strict for two parties, in a 90%/10% distribution, and prints it's address to the console. Note that changing either the private key, the minimum fee, or the details of any party will print a different address.
 
 ```typescript
-const ecc = new xeclib.Ecc();
+const ecc = new Ecc();
 const prvKey = fromHex("...");
 
 const fee = 2000; // SAT
@@ -46,8 +46,8 @@ const parties = [
 ];
 
 const contract = createScript(ecc, prvKey, fee, parties);
-const hash = xeclib.shaRmd160(contract.data);
-console.log("contract: ", xecaddr.encode("ecash", "P2SH", hash));
+const hash = shaRmd160(contract.data);
+console.log("contract: ", encode("ecash", "P2SH", hash));
 ```
 
 Given a contract script and its details, it's possible to simulate the distribution with `createOutputs()`, that is, obtain the only output configuration that will be considered valid for a given input value. The are three main cases for the outputs:
@@ -62,11 +62,11 @@ const outputs = createOutputs(value, fee, contract, parties);
 
 console.log("distributing:", value)
 outputs.forEach(output => {
-  const hexScript = xeclib.toHex(output.script.bytecode);
+  const hexScript = toHex(output.script.bytecode);
   if (hexScript === "6a") { 
     console.log("only fees");
   } else {
-    console.log(output.value, xecaddr.encodeOutputScript(hexScript));
+    console.log(output.value, encodeOutputScript(hexScript));
   }
 });
 ```
@@ -76,8 +76,12 @@ The library can also generate the spending transaction with `createTx()`. It com
 ```typescript
 const utxo = { txid: "...", outIdx: ..., value };
 const tx = createTx(ecc, prvKey, utxo, fee, parties);
-console.log("tx:", xeclib.toHex(tx.ser()));
+console.log("tx:", toHex(tx.ser()));
 ```
+
+A complete script that demonstrates how to create a spending transaction and then inspects its structure is available at `scripts/demo.ts`. This script is not included in the compilation but can be run with:
+
+  * `npx ts-node scripts/demo.ts`
 
 ## Limitations
 
