@@ -117,7 +117,7 @@ export function createScript(ecc: Ecc, prvKey: Uint8Array, fee: number, parties:
     const p = parties[i];
 
     // avoid etoken and addresses with other purposes
-    const decodedAddress = xecaddr.decode(p.address, false);
+    const decodedAddress = xecaddr.decodeCashAddress(p.address);
     if (!["ecash", "ecregtest"].includes(decodedAddress.prefix)) {
       throw new Error(`Only ecash addresses are acceptable, got ${decodedAddress.prefix} for ${p.address}`);
     }

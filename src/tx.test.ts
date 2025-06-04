@@ -1,5 +1,5 @@
 import { fail } from 'assert';
-import { Ecc, Script, TxOutput, fromHex, initWasm, isPushOp, sha256d, shaRmd160, toHex } from 'ecash-lib';
+import { Ecc, Script, TxOutput, fromHex, isPushOp, sha256d, shaRmd160, toHex } from 'ecash-lib';
 import { expect } from 'expect';
 import { Party, SCRIPT_NOPAY, createScript } from './script';
 import { createTx } from './tx';
@@ -11,7 +11,7 @@ import { createTx } from './tx';
 let ecc: Ecc;
 
 before(() => {
-  return initWasm().then(() => ecc = new Ecc());
+  return Promise.resolve().then(() => ecc = new Ecc());
 });
 
 //
@@ -84,7 +84,7 @@ describe('createTx', () => {
     expect(tx.inputs.length).toBe(1);
     expect(tx.inputs[0].prevOut.txid).toBe(input.txid);
     expect(tx.inputs[0].prevOut.outIdx).toBe(input.outIdx);
-    expect(tx.inputs[0].signData?.value).toBe(input.value);
+    expect(tx.inputs[0].signData?.sats).toBe(BigInt(input.value));
   });
 
   it('input script', () => {
@@ -176,7 +176,7 @@ function utxo(value: number) {
 function expectOutputs(outputs: TxOutput[], ...checks: Array<{ value: number, script: Script }>) {
   expect(outputs.length).toBe(checks.length);
   checks.forEach((check, i) => {
-    expect(BigInt(outputs[i].value)).toBe(BigInt(check.value));
+    expect(BigInt(outputs[i].sats)).toBe(BigInt(check.value));
     expect(outputs[i].script).toEqual(check.script);
   });
 }

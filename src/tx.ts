@@ -50,7 +50,7 @@ export function createTx(ecc: Ecc, prvKey: Uint8Array, utxo: Utxo, fee: number, 
           outIdx: utxo.outIdx,
         },
         signData: {
-            value: utxo.value,
+            sats: BigInt(utxo.value),
             redeemScript: contract
         }
       }
@@ -115,7 +115,7 @@ export function createTx(ecc: Ecc, prvKey: Uint8Array, utxo: Utxo, fee: number, 
       input: tx.inputs[0],
       signatory: () => spendScript
     }]
-  }).sign(ecc);
+  }).sign({ ecc });
 
   // make a final verification of the fee
   const minFee = signedTx.serSize();

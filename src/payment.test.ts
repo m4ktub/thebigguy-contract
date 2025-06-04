@@ -1,4 +1,4 @@
-import { Ecc, Script, TxOutput, fromHex, initWasm, shaRmd160 } from 'ecash-lib';
+import { Ecc, Script, TxOutput, fromHex, shaRmd160 } from 'ecash-lib';
 import { expect } from 'expect';
 import { createOutputs } from './payment';
 import { SCRIPT_NOPAY, createScript, type Party } from './script';
@@ -10,7 +10,7 @@ import { SCRIPT_NOPAY, createScript, type Party } from './script';
 let ecc: Ecc;
 
 before(() => {
-  return initWasm().then(() => ecc = new Ecc());
+  return Promise.resolve().then(() => ecc = new Ecc());
 });
 
 //
@@ -32,7 +32,7 @@ describe('payments', () => {
   function expectOutputs(outputs: TxOutput[], ...checks: Array<{ value: number, script: Script }>) {
     expect(outputs.length).toBe(checks.length);
     checks.forEach((check, i) => {
-      expect(BigInt(outputs[i].value)).toBe(BigInt(check.value));
+      expect(BigInt(outputs[i].sats)).toBe(BigInt(check.value));
       expect(outputs[i].script).toEqual(check.script);
     });
   }

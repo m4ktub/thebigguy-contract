@@ -41,7 +41,7 @@ describe('serializePrevouts', () => {
 
 describe('serializeOutputs', () => {
   it('op_return', () => {
-    const outputs = [{ value: 0, script: Script.fromOps([OP_RETURN]) }];
+    const outputs = [{ sats: BigInt(0), script: Script.fromOps([OP_RETURN]) }];
     const result = serializeOutputs(outputs);
     expect(toHex(result)).toEqual("0000000000000000016a");
   });
@@ -49,11 +49,11 @@ describe('serializeOutputs', () => {
   it('endianess', () => {
     const outputs = [
       {
-        value: 9000,
+        sats: BigInt(9000),
         script: Script.p2pkh(fromHex("147c021a6995105ea0e62762b23f5497520d5556"))
       },
       {
-        value: 1000,
+        sats: BigInt(1000),
         script: Script.p2sh(fromHex("d37c4c809fe9840e7bfa77b86bd47163f6fb6c60"))
       }
     ];

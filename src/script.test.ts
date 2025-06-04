@@ -14,7 +14,6 @@ import {
   OP_SUB,
   Script,
   fromHex,
-  initWasm,
   pushBytesOp,
   pushNumberOp,
   shaRmd160,
@@ -38,7 +37,7 @@ import { serializeOutputs } from './utils';
 let ecc: Ecc;
 
 before(() => {
-  return initWasm().then(() => ecc = new Ecc());
+  return Promise.resolve().then(() => ecc = new Ecc());
 });
 
 //
@@ -180,7 +179,7 @@ describe('createScript', () => {
     const smallestUnitHex = toHex(Script.fromOps([pushNumberOp(1), OP_LESSTHAN, OP_IF]).bytecode);
 
     // check comparison of outputs with no pay script, by treating the reverse as number
-    const noPaySer = serializeOutputs([{ value: 0, script: SCRIPT_NOPAY }]);
+    const noPaySer = serializeOutputs([{ sats: BigInt(0), script: SCRIPT_NOPAY }]);
     const noPayAsNumSer = noPaySer.reverse().filter(v => v > 0);
     const noPayOutputHex = toHex(Script.fromOps([
       OP_REVERSEBYTES, OP_BIN2NUM, pushBytesOp(noPayAsNumSer), OP_EQUALVERIFY

@@ -32,8 +32,8 @@ export function createOutputs(value: number, fee: number, contract: Script, part
     const halfValue = quotient(outputValue, 2);
 
     // this ensures that input = fee + output1 + output2, when input is odd
-    outputs.push({ value: outputValue - halfValue, script: contractP2sh });
-    outputs.push({ value: halfValue              , script: contractP2sh });
+    outputs.push({ sats: BigInt(outputValue - halfValue), script: contractP2sh });
+    outputs.push({ sats: BigInt(halfValue)              , script: contractP2sh });
   } else {
     // the share math will work so the script will validate output amounts
     // based on the contract shares and a unit of 1/1000th of the output value
@@ -50,14 +50,14 @@ export function createOutputs(value: number, fee: number, contract: Script, part
       }
 
       outputs.push({
-        value: partyValue,
+        sats: BigInt(partyValue),
         script: Script.fromAddress(party.address)
       });
     }
 
     // if no party got a share, then add the expected OP_RETURN
     if (outputs.length == 0) {
-      outputs.push({ value: 0, script: SCRIPT_NOPAY });
+      outputs.push({ sats: BigInt(0), script: SCRIPT_NOPAY });
     }
   }
 
