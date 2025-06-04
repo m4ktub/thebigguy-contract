@@ -1,6 +1,6 @@
 {
   "name": "thebigguy-contract",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A library to generate P2SH scripts and create spend transactions for permissionless share-based distribution of UTXOs",
   "license": "MIT",
   "author": "Cláudio Gil",
